@@ -1,0 +1,82 @@
+Create table endereco(
+	id_endereco serial not null,
+	numero serial not null,
+	complemento varchar(50) null,
+	CONSTRAINT pk_endereco PRIMARY KEY (id_endereco),
+);
+
+create table cep(
+	id_cep serial not null,
+	id_endereco serial not null,
+	estado varchar(20) not null,
+	rua varchar(50) not null,
+	CONSTRAINT pk_cep PRIMARY KEY (id_cep),
+	CONSTRAINT fk_cep_endereco FOREIGN KEY (id_endereco),
+);
+
+create table professor(
+	id_prof serial not null,
+	id_endereco serial not null,
+	nome varchar(50) not null,
+	CONSTRAINT pk_professor PRIMARY KEY (id_prof),
+	CONSTRAINT fk_professor_endereco FOREIGN KEY (id_endereco),
+);
+
+create table curso(
+	id_curso serial not null,
+	id_prof serial not null,
+	nome varchar(50) not null,
+	data date not null,
+	CONSTRAINT pk_curso PRIMARY KEY (id_curso),
+	CONSTRAINT fk_curso_professor FOREIGN KEY (id_prof),
+);
+
+create table preco(
+	id_preco serial not null,
+	id_curso serial not null,
+	preco_valor decimal(8,2) not null,
+	CONSTRAINT pk_preco PRIMARY KEY (id_preco),
+	CONSTRAINT fk_preco_curso FOREIGN KEY (id_curso),
+);
+
+create table estudante(
+	id_est serial not null,
+	id_endereco serial not null,
+	nome varchar(50) not null,
+	CONSTRAINT pk_estudante PRIMARY KEY (id_est),
+	CONSTRAINT fk_estudante_endereco FOREIGN KEY (id_endereco),
+ );
+
+ create table matricula(
+	id_curso serial not null,
+	id_est serial not null,
+	data_hora date not null,
+	numero serial not null,
+	CONSTRAINT fk_matricula_curso FOREIGN KEY (id_curso),
+	CONSTRAINT fk_matricula_est FOREIGN KEY (id_est),
+ );
+
+create table telefone(
+	id_tel serial not null,
+	id_prof serial not null,
+	id_est serial not null,
+	DDD varchar(3) not null,
+	numero varchar(11) not null,
+	CONSTRAINT pk_telefone PRIMARY KEY (id_tel),
+	CONSTRAINT fk_telefone_professor FOREIGN KEY (id_prof),
+	CONSTRAINT fk_telefone_estudante FOREIGN KEY (id_est),
+);
+
+create table estudante_tel(
+	id_est serial not null,
+	id_tel serial not null,
+	CONSTRAINT fk_estudantetel_estudante FOREIGN KEY (id_est),
+	CONSTRAINT fk_estudantetel_telefone FOREIGN KEY (id_tel),
+);
+
+create table professor_tel(
+	id_prof serial not null,
+	id_tel serial not null,
+	CONSTRAINT fk_estudantetel_professor FOREIGN KEY (id_prof),
+	CONSTRAINT fk_estudantetel_telefone FOREIGN KEY (id_tel),
+);
